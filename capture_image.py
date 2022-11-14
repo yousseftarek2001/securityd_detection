@@ -1,15 +1,23 @@
 import cv2
-cam = cv2.VideoCapture(0)
-cv2.namedWindow("test camera")
-imgCont = 0
+live = cv2.VideoCapture(0)
+imgcount= 0
 while True:
-    ret, frame = cam.read()
+    ret, frame = live.read()
     if not ret:
         print("error")
-        
+        break
 
-    cv2.imshow("test", frame)
+    
+    if cv2.waitKey(20) & 0xFF == ord('d'):
+        print("close app")
+        break
+    elif cv2.waitKey(32) & 0xFF == ord('s'):
+        cv2.imwrite("screenShot{}.png".format(imgcount),frame)
+        print("screenshot was taken")
+        imgcount+=1
+
+    cv2.imshow("take ScreenShot",frame)
 
 
-cam.release()
-cam.destroyAllWindows()
+live.release()
+live.destroyAllWindows()
